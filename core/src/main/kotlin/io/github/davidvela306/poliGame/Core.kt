@@ -22,6 +22,7 @@ class Core : ApplicationAdapter() {
     private lateinit var croquetaTexture: Texture
     private lateinit var endGameTexture: Texture
     private lateinit var croquetaSound: Sound
+    private lateinit var loseSound: Sound
     private lateinit var music: Music
     private lateinit var spriteBatch: SpriteBatch
     private lateinit var viewport: FitViewport
@@ -43,13 +44,14 @@ class Core : ApplicationAdapter() {
         croquetaTexture = Texture("croqueta.png")
         endGameTexture = Texture("endGame.png")
         croquetaSound = Gdx.audio.newSound(Gdx.files.internal("drop.mp3"))
+        loseSound = Gdx.audio.newSound(Gdx.files.internal("lose.mp3"))
         music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"))
 
         // Inicialización de objetos
         spriteBatch = SpriteBatch()
         viewport = FitViewport(8f, 5f)
         perritoSprite = Sprite(perritoTexture).apply {
-            setSize(1f, 1f)
+            setSize(1.4f, 1.7f)
         }
         touchPos = Vector2()
         croquetaSprites = Array()
@@ -138,6 +140,7 @@ class Core : ApplicationAdapter() {
     private fun gameOver() {
         isGameOver = true
         music.stop()
+        loseSound.play()
         croquetaSprites.clear()
     }
 
@@ -191,6 +194,7 @@ class Core : ApplicationAdapter() {
         croquetaTexture.dispose()
         endGameTexture.dispose()
         croquetaSound.dispose()
+        loseSound.dispose()
         music.dispose()
         spriteBatch.dispose()
     }
